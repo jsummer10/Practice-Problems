@@ -1,6 +1,7 @@
 """
 Problem: Binary tree averages
 Author: Jacob Summerville
+Description: Depth-first search
 """
 
 class Node:
@@ -14,9 +15,10 @@ def traverse(node, depth, node_map):
     if not node: return
 
     if depth in node_map:
-        node_map[depth].append(node.value)
+        node_map[depth][0] += node.value
+        node_map[depth][1] += 1
     else:
-        node_map[depth] = [node.value]
+        node_map[depth] = [node.value, 1]
 
     depth += 1
     traverse(node.left, depth, node_map)
@@ -29,11 +31,7 @@ def calculate_averages(node_1):
     
     averages = []
     for depth in node_map:
-        depth_sum = 0
-        for node in node_map[depth]:
-            depth_sum += node
-
-        averages.append(int(depth_sum / len(node_map[depth])))
+        averages.append(int(node_map[depth][0] / node_map[depth][1]))
 
     return averages
 
